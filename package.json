@@ -1,0 +1,22 @@
+{
+  "name": "bots",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "node --loader ts-node/esm index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "discord.js": "^14.24.2",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.3",
+    "@types/node": "^24.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
