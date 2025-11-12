@@ -1,0 +1,1 @@
+node --loader ts-node/esm deployCommande.ts && npm run dev
