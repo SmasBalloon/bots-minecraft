@@ -29,7 +29,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         return;
       }
       interaction.editReply({
-        content: "✅ Serveur Minecraft démarré avec succès !"
+        content: "✅ Serveur Minecraft arrêté avec succès !"
       }).catch(console.error);
     });
   } catch (error) {
