@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "discord.js": "^14.24.2",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "modern-rcon": "^1.0.3",
+    "rcon": "^1.1.0",
+    "rcon-client": "^4.2.5"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
