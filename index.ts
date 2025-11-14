@@ -5,6 +5,7 @@ import { readdirSync } from 'fs';
 import { join, extname, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
+import { Rcon } from 'rcon-client';
 
 dotenv.config();
 
@@ -49,17 +50,45 @@ client.once('clientReady', () => {
   console.log(`📝 ${client.commands.size} commande(s) chargée(s)`);
 
   // Fonction pour vérifier l'état du serveur et mettre à jour le statut
-  function updateServerStatus() {
+  async function updateServerStatus() {
     // activités disponibles (valeur par défaut pendant la vérification)
     let activities: { name: string; type: number }[] = [
       { name: 'Vérification du serveur...', type: 3 },
     ];
 
     // Vérifier l'état du service de manière asynchrone et mettre à jour la liste d'activités
-    exec('systemctl is-active fabric', (error, stdout) => {
+    exec('systemctl is-active fabric', async (error, stdout) => {
       const isActive = !error && stdout?.toString().trim() === 'active';
+
+      let playerCount = 0;
+      let maxPlayers = 0;
+
       if (isActive) {
+        // Récupérer le nombre de joueurs connectés via RCON
+        try {
+          const rcon = await Rcon.connect({
+            host: process.env.RCON_HOST || 'localhost',
+            port: 25575,
+            password: process.env.RCON_PASSWORD || '',
+            timeout: 5000, // Timeout de 5 secondes
+          });
+
+          const response = await rcon.send('list');
+          await rcon.end();
+
+          // Parser la réponse: "There are X of a max of Y players online"
+          const match = response.match(/There are (\d+) of a max of (\d+)/);
+          if (match && match[1] && match[2]) {
+            playerCount = parseInt(match[1]);
+            maxPlayers = parseInt(match[2]);
+          }
+        } catch (rconError) {
+          // Serveur actif mais RCON pas encore prêt ou désactivé
+          // On affiche juste "Serveur en ligne" sans le nombre de joueurs
+        }
+
         activities = [
+          { name: `${playerCount}/${maxPlayers} joueurs en ligne`, type: 3 },
           { name: 'Serveur en ligne', type: 1 },
           { name: '/stop pour arrêter', type: 0 },
         ];
