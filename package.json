@@ -10,15 +10,15 @@
     "build": "tsc"
   },
   "dependencies": {
-    "discord.js": "^14.24.2",
-    "dotenv": "^17.2.3",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.4",
     "modern-rcon": "^1.0.3",
     "rcon": "^1.1.0",
     "rcon-client": "^4.2.5"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
-    "@types/node": "^24.10.0",
+    "@types/node": "^25.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
